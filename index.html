@@ -1,41 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Manhattan Only Map (Leaflet)</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+  <title>Manhattan Service Area</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet/dist/leaflet.css"
-    />
-    <style>
-      #map {
-        height: 100vh;
-      }
-    </style>
-  </head>
-  <body>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
-    <div id="map"></div>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-      const map = L.map("map").setView([40.7831, -73.9712], 12);
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
 
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
+<body>
 
-      const bounds = [
-        [40.7003, -74.0170],
-        [40.8790, -73.9070],
-      ];
+<div id="map"></div>
 
-      map.setMaxBounds(bounds);
-      map.fitBounds(bounds);
-    </script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-  </body>
+<script>
+  // Manhattan geographic bounds
+  const manhattanBounds = [
+    [40.7003, -74.0200], // Southwest (Battery Park)
+    [40.8790, -73.9070]  // Northeast (Inwood)
+  ];
+
+  // Create map
+  const map = L.map("map", {
+    maxBounds: manhattanBounds,
+    maxBoundsViscosity: 1.0
+  }).setView([40.7831, -73.9712], 12);
+
+  // Add free OpenStreetMap tiles
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors",
+    noWrap: true
+  }).addTo(map);
+
+  // Draw Manhattan area shading
+  const polygon = L.polygon([
+    [40.7003, -74.0200],
+    [40.7003, -73.9070],
+    [40.8790, -73.9070],
+    [40.8790, -74.0200]
+  ], {
+    color: "#0057ff",
+    fillOpacity: 0.15,
+    weight: 2
+  }).addTo(map);
+
+  // Fit map exactly to Manhattan
+  map.fitBounds(manhattanBounds);
+</script>
+
+</body>
 </html>
