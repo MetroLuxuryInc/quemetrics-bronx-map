@@ -3,20 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Bronx Traffic Map</title>
+  <style>
+    /* Make body and html take full height, remove margin */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    /* Make iframe take full viewport */
+    #trafficMap {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-  <h2>Live Traffic - The Bronx, NYC</h2>
-  
+
   <!-- 511NY Embedded Map -->
   <iframe
+    id="trafficMap"
     src="https://511ny.org/Map/EmbeddedMap?region=NYC&layers=trafficSpeeds,cameras,incidents&center=40.8448,-73.8648&zoom=13"
-    width="1000"
-    height="600"
-    style="border:0;"
     allowfullscreen
     loading="lazy">
   </iframe>
-  
-  <p>Data provided by <a href="https://511ny.org/">511NY</a></p>
+
 </body>
 </html>
