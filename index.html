@@ -4,17 +4,23 @@
   <meta charset="UTF-8">
   <title>Bronx Traffic Map</title>
   <style>
-    /* Make body and html take full height, remove margin */
+    /* Make html and body take full viewport and remove margin */
     html, body {
-      height: 100%;
+      height: 100vh;        /* full viewport height */
+      width: 100vw;         /* full viewport width */
       margin: 0;
+      padding: 0;
+      overflow: hidden;     /* prevent scrollbars */
     }
 
-    /* Make iframe take full viewport */
+    /* iframe fills the entire viewport */
     #trafficMap {
-      width: 100%;
-      height: 100%;
-      border: none;
+      position: fixed;      /* stick to viewport */
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: 0;
     }
   </style>
 </head>
