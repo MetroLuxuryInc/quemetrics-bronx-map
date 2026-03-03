@@ -1,48 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Manhattan Service Area</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    #map {
-      height: 100vh;
-      width: 100%;
-    }
-  </style>
-</head>
-<body>
+  <head>
+    <title>Manhattan Only Map (Leaflet)</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div id="map"></div>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet/dist/leaflet.css"
+    />
+    <style>
+      #map {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
 
-<script>
-  function initMap() {
-    const manhattan = { lat: 40.7831, lng: -73.9712 };
+    <div id="map"></div>
 
-    const map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 12,
-      center: manhattan,
-      restriction: {
-        latLngBounds: {
-          north: 40.882,
-          south: 40.698,
-          west: -74.047,
-          east: -73.907
-        },
-        strictBounds: false,
-      },
-    });
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      const map = L.map("map").setView([40.7831, -73.9712], 12);
 
-    new google.maps.Marker({
-      position: manhattan,
-      map: map,
-      title: "Manhattan Service Area",
-    });
-  }
-</script>
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map);
 
-<script async
-  src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap">
-</script>
+      const bounds = [
+        [40.7003, -74.0170],
+        [40.8790, -73.9070],
+      ];
 
-</body>
+      map.setMaxBounds(bounds);
+      map.fitBounds(bounds);
+    </script>
+
+  </body>
 </html>
