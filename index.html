@@ -5,7 +5,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
   <style>
@@ -14,7 +13,6 @@
       padding: 0;
       height: 100%;
     }
-
     #map {
       height: 100%;
       width: 100%;
@@ -26,42 +24,45 @@
 
 <div id="map"></div>
 
-<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script>
-  // Manhattan geographic bounds
-  const manhattanBounds = [
-    [40.7003, -74.0200], // Southwest (Battery Park)
-    [40.8790, -73.9070]  // Northeast (Inwood)
-  ];
+  // True tight Manhattan bounds
+  const manhattanBounds = L.latLngBounds(
+    [40.7003, -74.0180], // Southwest (Battery Park)
+    [40.8780, -73.9070]  // Northeast (Inwood)
+  );
 
-  // Create map
+  // Create map locked to Manhattan
   const map = L.map("map", {
+    zoomControl: true,
+    dragging: true,
+    scrollWheelZoom: true,
+    doubleClickZoom: true,
+    boxZoom: false,
+    keyboard: false,
     maxBounds: manhattanBounds,
-    maxBoundsViscosity: 1.0
-  }).setView([40.7831, -73.9712], 12);
+    maxBoundsViscosity: 1.0,
+    minZoom: 12,
+    maxZoom: 17
+  });
 
-  // Add free OpenStreetMap tiles
+  // Add free OpenStreetMap tiles (north always up)
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; OpenStreetMap contributors",
     noWrap: true
   }).addTo(map);
 
-  // Draw Manhattan area shading
-  const polygon = L.polygon([
-    [40.7003, -74.0200],
-    [40.7003, -73.9070],
-    [40.8790, -73.9070],
-    [40.8790, -74.0200]
-  ], {
+  // Fit exactly to Manhattan
+  map.fitBounds(manhattanBounds);
+
+  // Optional: subtle Manhattan highlight
+  L.rectangle(manhattanBounds, {
     color: "#0057ff",
-    fillOpacity: 0.15,
-    weight: 2
+    weight: 2,
+    fillOpacity: 0.08
   }).addTo(map);
 
-  // Fit map exactly to Manhattan
-  map.fitBounds(manhattanBounds);
 </script>
 
 </body>
